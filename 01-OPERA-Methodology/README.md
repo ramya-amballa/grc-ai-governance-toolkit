@@ -3,6 +3,7 @@
 Turning AI governance requirements into operational decisions.
 
 ---
+![OPERA Methodology](../images/opera-methodology-v1.png)
 
 ## Why OPERA Exists
 

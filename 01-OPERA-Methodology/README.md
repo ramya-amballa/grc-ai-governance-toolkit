@@ -88,3 +88,5 @@ Examples:
 - Implementation Lab
 - Practitioner Resources
 - Templates
+
+Supporting workflow and implementation visuals are available through the Decision Lab examples.

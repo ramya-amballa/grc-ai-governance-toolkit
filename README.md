@@ -38,6 +38,16 @@ OPERA is a practical implementation methodology designed to help organisations m
 | Templates | Reusable artefacts |
 
 ---
+## Repository Structure
+
+- [OPERA Methodology](01-OPERA-Methodology/)
+- [AI Governance Decision Lab](02-Decision-Lab/AI-Third-Party-Risk-Intelligence-Assistant/)
+- [Implementation Lab](03-Implementation-Lab/)
+- [Practitioner Resources](04-Practitioner-Resources/)
+- [Case Studies](05-Case-Studies/)
+- [Templates](06-Templates/)
+
+---
 
 ## Coming Soon
 

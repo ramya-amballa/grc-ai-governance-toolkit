@@ -48,6 +48,7 @@ OPERA is a practical implementation methodology designed to help organisations m
 - [Templates](06-Templates/)
 
 ---
+- [Case Studies](05-Case-Studies/)
 
 ## Coming Soon
 

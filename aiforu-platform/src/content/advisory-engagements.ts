@@ -1,14 +1,17 @@
 import type { AdvisoryEngagement } from "@/types";
 
 /**
- * Selected Advisory Engagements. This is placeholder data shaping the
- * reusable engagement template at /selected-advisory-engagements/[slug].
- * Real engagement summaries (appropriately anonymised) land in Phase 2.
+ * Selected Advisory Engagements. This spans government work, enterprise
+ * advisory engagements and standalone strategic programmes — `track`
+ * distinguishes them within one collection and one template at
+ * /selected-advisory-engagements/[slug]. Adding the next engagement,
+ * of any track, is a data-only change.
  */
 export const advisoryEngagements: AdvisoryEngagement[] = [
   {
     slug: "government-digital-governance-programme",
     title: "[Engagement Title Placeholder — Government Digital Governance]",
+    track: "Government",
     domainSlugs: ["government-digital-governance"],
     sector: "Government / Public Sector",
     engagementType: "[Engagement Type Placeholder]",
@@ -22,6 +25,7 @@ export const advisoryEngagements: AdvisoryEngagement[] = [
   {
     slug: "ai-governance-operating-model",
     title: "[Engagement Title Placeholder — AI Governance]",
+    track: "Enterprise Advisory",
     domainSlugs: ["ai-governance"],
     sector: "Technology",
     engagementType: "[Engagement Type Placeholder]",
@@ -35,6 +39,7 @@ export const advisoryEngagements: AdvisoryEngagement[] = [
   {
     slug: "technology-risk-assurance",
     title: "[Engagement Title Placeholder — Technology Risk]",
+    track: "Enterprise Advisory",
     domainSlugs: ["technology-risk"],
     sector: "Financial Services",
     engagementType: "[Engagement Type Placeholder]",
@@ -48,6 +53,7 @@ export const advisoryEngagements: AdvisoryEngagement[] = [
   {
     slug: "third-party-governance-framework",
     title: "[Engagement Title Placeholder — Third Party Governance]",
+    track: "Enterprise Advisory",
     domainSlugs: ["third-party-governance"],
     sector: "Healthcare",
     engagementType: "[Engagement Type Placeholder]",
@@ -61,6 +67,7 @@ export const advisoryEngagements: AdvisoryEngagement[] = [
   {
     slug: "dpdp-governance-readiness-programme",
     title: "[Engagement Title Placeholder — DPDP Governance]",
+    track: "Strategic Programme",
     domainSlugs: ["dpdp-governance-readiness"],
     sector: "Enterprise Leadership",
     engagementType: "[Engagement Type Placeholder]",
@@ -74,6 +81,7 @@ export const advisoryEngagements: AdvisoryEngagement[] = [
   {
     slug: "ens-readiness-assessment",
     title: "[Engagement Title Placeholder — ENS Readiness]",
+    track: "Government",
     domainSlugs: ["cyber-governance"],
     sector: "Government / Public Sector",
     engagementType: "[Engagement Type Placeholder]",
@@ -87,6 +95,7 @@ export const advisoryEngagements: AdvisoryEngagement[] = [
   {
     slug: "pci-dss-advisory",
     title: "[Engagement Title Placeholder — PCI DSS]",
+    track: "Enterprise Advisory",
     domainSlugs: ["cyber-governance"],
     sector: "Financial Services",
     engagementType: "[Engagement Type Placeholder]",
@@ -96,6 +105,20 @@ export const advisoryEngagements: AdvisoryEngagement[] = [
     approach: ["[Approach Step Placeholder 1]", "[Approach Step Placeholder 2]", "[Approach Step Placeholder 3]"],
     outcome: "[Engagement Outcome Placeholder]",
     featured: false,
+  },
+  {
+    slug: "enterprise-governance-transformation-programme",
+    title: "[Engagement Title Placeholder — Enterprise Governance Transformation]",
+    track: "Strategic Programme",
+    domainSlugs: ["governance-transformation"],
+    sector: "Enterprise Leadership",
+    engagementType: "[Engagement Type Placeholder]",
+    year: "[Year Placeholder]",
+    summary: "[Engagement Summary Placeholder]",
+    context: "[Engagement Context Placeholder]",
+    approach: ["[Approach Step Placeholder 1]", "[Approach Step Placeholder 2]", "[Approach Step Placeholder 3]"],
+    outcome: "[Engagement Outcome Placeholder]",
+    featured: true,
   },
 ];
 

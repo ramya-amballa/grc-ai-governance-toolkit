@@ -1,6 +1,11 @@
 /**
  * Shared domain types for the AIforU&I advisory platform.
- * All copy fields are placeholder content pending Phase 2.
+ * All copy fields are placeholder content pending Phase 2 authoring.
+ *
+ * This is a living-platform architecture: every collection below is
+ * additive-only by design. New engagements, domains, insights and
+ * resources are appended to content/*.ts without touching page or
+ * component code — see content/README.md for the extension contract.
  */
 
 export interface NavItem {
@@ -9,10 +14,23 @@ export interface NavItem {
   description?: string;
 }
 
+export type GovernanceClusterId =
+  | "emerging-technology-governance"
+  | "risk-cyber-assurance"
+  | "regulatory-privacy-third-party"
+  | "public-sector-transformation";
+
+export interface GovernanceCluster {
+  id: GovernanceClusterId;
+  name: string;
+  description: string;
+}
+
 export interface GovernanceDomain {
   slug: string;
   name: string;
   shortName: string;
+  cluster: GovernanceClusterId;
   eyebrow: string;
   summary: string;
   overview: string;
@@ -20,12 +38,22 @@ export interface GovernanceDomain {
   whoItsFor: string[];
   relatedEngagementSlugs: string[];
   relatedInsightSlugs: string[];
+  relatedResourceSlugs: string[];
   featured: boolean;
 }
+
+/**
+ * Government work, enterprise consulting-style engagements and
+ * standalone strategic advisory assignments all live in the same
+ * collection, distinguished by `track` rather than separate content
+ * types — they share one template and one taxonomy.
+ */
+export type EngagementTrack = "Government" | "Enterprise Advisory" | "Strategic Programme";
 
 export interface AdvisoryEngagement {
   slug: string;
   title: string;
+  track: EngagementTrack;
   domainSlugs: string[];
   sector: string;
   engagementType: string;
@@ -37,9 +65,19 @@ export interface AdvisoryEngagement {
   featured: boolean;
 }
 
+/**
+ * `format` separates original-thinking pieces ("Point of View") from
+ * shorter operational notes and briefings, without splitting Insights
+ * into a separate content type. The homepage's signature Point of
+ * View section is simply a filtered, featured slice of this same
+ * collection.
+ */
+export type InsightFormat = "Point of View" | "Governance Note" | "Briefing" | "Field Note";
+
 export interface Insight {
   slug: string;
   title: string;
+  format: InsightFormat;
   category: string;
   domainSlugs: string[];
   date: string;
@@ -48,20 +86,40 @@ export interface Insight {
   featured: boolean;
 }
 
-export type ResourceType = "Framework" | "Checklist" | "Whitepaper" | "Template" | "Briefing";
+export type ResourceType =
+  | "Framework"
+  | "Checklist"
+  | "Whitepaper"
+  | "Template"
+  | "Briefing"
+  | "Playbook"
+  | "Reference Architecture"
+  | "Toolkit";
+
+export type ResourceAccessTier = "Free" | "Premium";
 
 export interface Resource {
   slug: string;
   title: string;
   type: ResourceType;
+  accessTier: ResourceAccessTier;
   domainSlugs: string[];
   description: string;
   featured: boolean;
 }
 
-export interface AdvisoryService {
-  slug: string;
-  name: string;
-  summary: string;
-  deliverables: string[];
+/**
+ * A single dated snapshot of what the practice is actively focused on
+ * right now — the homepage "Current Advisory Priorities" section.
+ * Update `updatedAt` whenever `items` changes so staleness is visible
+ * in the data itself, not just in the rendered page.
+ */
+export interface CurrentPriority {
+  label: string;
+  domainSlug?: string;
+}
+
+export interface CurrentPrioritiesSnapshot {
+  updatedAt: string;
+  items: CurrentPriority[];
 }

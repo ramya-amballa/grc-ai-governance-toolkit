@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArticleDetail } from "@/components/article/article-detail";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
-import { CtaBand } from "@/components/sections/cta-band";
 import { JsonLd } from "@/components/seo/json-ld";
 import { articleSchema } from "@/components/seo/schema";
+import { BackLink } from "@/components/ui/back-link";
 import { getInsightBySlug, insights } from "@/content/insights";
 import { buildMetadata } from "@/lib/metadata";
 
@@ -51,7 +51,7 @@ export default async function InsightPage({ params }: PageProps) {
         ]}
       />
       <ArticleDetail insight={insight} />
-      <CtaBand />
+      <BackLink href="/insights" label="All Insights" />
     </>
   );
 }

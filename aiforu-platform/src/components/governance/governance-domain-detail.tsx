@@ -1,21 +1,32 @@
 import { AdvisoryEngagementGrid } from "@/components/advisory/advisory-engagement-grid";
 import { ArticleGrid } from "@/components/article/article-grid";
+import { ResourceGrid } from "@/components/resource/resource-grid";
 import { Container } from "@/components/ui/container";
 import { Divider } from "@/components/ui/divider";
 import { Eyebrow } from "@/components/ui/eyebrow";
-import type { AdvisoryEngagement, GovernanceDomain, Insight } from "@/types";
+import type { AdvisoryEngagement, GovernanceCluster, GovernanceDomain, Insight, Resource } from "@/types";
 
 interface GovernanceDomainDetailProps {
   domain: GovernanceDomain;
+  cluster?: GovernanceCluster;
   relatedEngagements: AdvisoryEngagement[];
   relatedInsights: Insight[];
+  relatedResources: Resource[];
 }
 
 /**
- * Reusable template for each of the nine governance domain pages.
- * Domain content lives entirely in content/governance-domains.ts.
+ * Reusable template for every governance domain page — all thirteen
+ * domains render through this one component. Domain content lives
+ * entirely in content/governance-domains.ts; a fourteenth domain
+ * needs no change here.
  */
-export function GovernanceDomainDetail({ domain, relatedEngagements, relatedInsights }: GovernanceDomainDetailProps) {
+export function GovernanceDomainDetail({
+  domain,
+  cluster,
+  relatedEngagements,
+  relatedInsights,
+  relatedResources,
+}: GovernanceDomainDetailProps) {
   return (
     <article>
       <section className="border-b border-border py-section">
@@ -23,6 +34,9 @@ export function GovernanceDomainDetail({ domain, relatedEngagements, relatedInsi
           <Eyebrow>{domain.eyebrow}</Eyebrow>
           <h1 className="mt-6 max-w-3xl font-serif text-display text-ink balance">{domain.name}</h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted pretty">{domain.summary}</p>
+          {cluster ? (
+            <p className="mt-4 text-xs uppercase tracking-widest text-muted">Part of {cluster.name}</p>
+          ) : null}
         </Container>
       </section>
 
@@ -78,6 +92,20 @@ export function GovernanceDomainDetail({ domain, relatedEngagements, relatedInsi
               <h2 className="font-serif text-title text-ink">Related Insights</h2>
               <div className="mt-8">
                 <ArticleGrid insights={relatedInsights} />
+              </div>
+            </Container>
+          </section>
+        </>
+      ) : null}
+
+      {relatedResources.length > 0 ? (
+        <>
+          <Divider />
+          <section className="py-section-sm">
+            <Container size="wide">
+              <h2 className="font-serif text-title text-ink">Related Resources</h2>
+              <div className="mt-8">
+                <ResourceGrid resources={relatedResources} />
               </div>
             </Container>
           </section>

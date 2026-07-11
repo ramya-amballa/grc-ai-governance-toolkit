@@ -40,6 +40,10 @@ export function AdvisoryEngagementDetail({ engagement, relatedDomains }: Advisor
             <dt className="text-eyebrow uppercase tracking-widest text-muted">Year</dt>
             <dd className="mt-2 text-sm text-ink">{engagement.year}</dd>
           </div>
+          <div>
+            <dt className="text-eyebrow uppercase tracking-widest text-muted">Track</dt>
+            <dd className="mt-2 text-sm text-ink">{engagement.track}</dd>
+          </div>
         </dl>
 
         <div className="mt-12 space-y-12">

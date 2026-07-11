@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { AdvisoryEngagementDetail } from "@/components/advisory/advisory-engagement-detail";
-import { CtaBand } from "@/components/sections/cta-band";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
+import { BackLink } from "@/components/ui/back-link";
 import { advisoryEngagements, getAdvisoryEngagementBySlug } from "@/content/advisory-engagements";
 import { governanceDomains } from "@/content/governance-domains";
 import { buildMetadata } from "@/lib/metadata";
@@ -43,7 +43,7 @@ export default async function AdvisoryEngagementPage({ params }: PageProps) {
         ]}
       />
       <AdvisoryEngagementDetail engagement={engagement} relatedDomains={relatedDomains} />
-      <CtaBand />
+      <BackLink href="/selected-advisory-engagements" label="All Advisory Engagements" />
     </>
   );
 }

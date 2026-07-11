@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AdvisoryEngagementGrid } from "@/components/advisory/advisory-engagement-grid";
 import { ArticleGrid } from "@/components/article/article-grid";
-import { GovernanceDomainGrid } from "@/components/governance/governance-domain-grid";
+import { GovernanceCapabilityMap } from "@/components/governance/governance-capability-map";
 import { CtaBand } from "@/components/sections/cta-band";
+import { CurrentPrioritiesSection } from "@/components/sections/current-priorities-section";
+import { PointOfViewSection } from "@/components/sections/point-of-view-section";
 import { JsonLd } from "@/components/seo/json-ld";
 import { organizationSchema, personSchema } from "@/components/seo/schema";
 import { Button } from "@/components/ui/button";
@@ -12,8 +14,8 @@ import { Eyebrow } from "@/components/ui/eyebrow";
 import { Placeholder } from "@/components/ui/placeholder";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { advisoryEngagements } from "@/content/advisory-engagements";
-import { governanceDomains } from "@/content/governance-domains";
-import { insights } from "@/content/insights";
+import { currentPriorities } from "@/content/current-priorities";
+import { getPointOfViewInsights, insights } from "@/content/insights";
 import { buildMetadata } from "@/lib/metadata";
 import { primaryCta, secondaryCta } from "@/lib/constants";
 
@@ -23,23 +25,12 @@ export const metadata: Metadata = buildMetadata({
   path: "/",
 });
 
-const positioningStatements = [
-  "Independent Advisory",
-  "Digital Governance",
-  "AI Governance",
-  "Cyber Governance",
-  "Technology Risk",
-  "Third Party Governance",
-  "Privacy & Data Governance",
-  "DPDP Governance & Readiness",
-  "Government Digital Governance",
-  "Governance Transformation",
-];
-
 export default function HomePage() {
   const featuredEngagements = advisoryEngagements.filter((engagement) => engagement.featured).slice(0, 3);
-  const featuredDomains = governanceDomains.filter((domain) => domain.featured).slice(0, 6);
-  const featuredInsights = insights.filter((insight) => insight.featured).slice(0, 3);
+  const pointOfViewPieces = getPointOfViewInsights().filter((piece) => piece.featured).slice(0, 3);
+  const featuredInsights = insights
+    .filter((insight) => insight.featured && insight.format !== "Point of View")
+    .slice(0, 3);
 
   return (
     <>
@@ -57,15 +48,15 @@ export default function HomePage() {
               </h1>
               <p className="mt-8 max-w-2xl text-lg leading-relaxed text-muted pretty">
                 [Executive Introduction Placeholder — one to two sentences establishing independent advisory
-                positioning across governance, risk and technology.]
+                positioning and point of view, not a services pitch.]
               </p>
-              <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+              <div className="mt-10 flex flex-wrap items-center gap-6">
                 <Button href={primaryCta.href} variant="primary" size="lg">
                   {primaryCta.label}
                 </Button>
-                <Button href={secondaryCta.href} variant="secondary" size="lg">
-                  {secondaryCta.label}
-                </Button>
+                <Link href={secondaryCta.href} className="text-sm text-ink underline underline-offset-4 decoration-border hover:decoration-accent hover:text-accent">
+                  {secondaryCta.label} &rarr;
+                </Link>
               </div>
             </div>
             <div className="lg:col-span-4">
@@ -75,35 +66,45 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* Positioning strip */}
-      <section className="border-b border-border py-8">
-        <Container size="wide">
-          <ul className="flex flex-wrap gap-x-8 gap-y-3 text-sm text-muted">
-            {positioningStatements.map((item) => (
-              <li key={item} className="whitespace-nowrap">
-                {item}
-              </li>
-            ))}
-          </ul>
-        </Container>
-      </section>
+      <CurrentPrioritiesSection snapshot={currentPriorities} />
 
-      {/* Executive introduction */}
-      <section className="py-section">
+      <PointOfViewSection pieces={pointOfViewPieces} />
+
+      {/* Why organisations engage her */}
+      <section className="border-t border-border py-section">
         <Container size="wide">
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
             <div className="lg:col-span-4">
-              <SectionHeading eyebrow="About Ramya" title="[Executive Introduction Heading Placeholder]" />
+              <SectionHeading eyebrow="About Ramya" title="[Why Organisations Engage Her — Heading Placeholder]" />
             </div>
             <div className="lg:col-span-7 lg:col-start-6">
-              <p className="text-lg leading-relaxed text-ink pretty">[Executive Biography Paragraph Placeholder 1]</p>
+              <p className="text-lg leading-relaxed text-ink pretty">[Why Organisations Engage Her — Paragraph Placeholder 1]</p>
               <p className="mt-6 text-base leading-relaxed text-muted pretty">
-                [Executive Biography Paragraph Placeholder 2]
+                [Why Organisations Engage Her — Paragraph Placeholder 2]
               </p>
               <Link href="/about" className="mt-6 inline-block text-sm text-accent underline underline-offset-4">
                 [Read Full Profile Placeholder]
               </Link>
             </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* Governance domains — capability map */}
+      <section className="border-t border-border py-section">
+        <Container size="wide">
+          <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
+            <SectionHeading
+              eyebrow="Capability Map"
+              title="Governance Domains"
+              description="[Governance Domains Section Description Placeholder]"
+            />
+            <Button href="/governance-domains" variant="ghost">
+              View the full map &rarr;
+            </Button>
+          </div>
+          <div className="mt-12">
+            <GovernanceCapabilityMap variant="compact" />
           </div>
         </Container>
       </section>
@@ -123,25 +124,6 @@ export default function HomePage() {
           </div>
           <div className="mt-12">
             <AdvisoryEngagementGrid engagements={featuredEngagements} />
-          </div>
-        </Container>
-      </section>
-
-      {/* Governance domains */}
-      <section className="border-t border-border py-section">
-        <Container size="wide">
-          <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
-            <SectionHeading
-              eyebrow="Areas of Practice"
-              title="Governance Domains"
-              description="[Governance Domains Section Description Placeholder]"
-            />
-            <Button href="/governance-domains" variant="ghost">
-              View all domains &rarr;
-            </Button>
-          </div>
-          <div className="mt-12">
-            <GovernanceDomainGrid domains={featuredDomains} />
           </div>
         </Container>
       </section>

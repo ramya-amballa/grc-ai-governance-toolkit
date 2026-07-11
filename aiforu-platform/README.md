@@ -1,13 +1,20 @@
-# AIforU&I — Advisory Platform (Phase 1: Architecture & Codebase)
+# AIforU&I — Advisory Platform (Phase 2: Living-Platform Architecture)
 
 Independent advisory platform for Ramya Amballa. This is the **architecture and
 component system**, not final content. Every page renders with clearly
-labelled `[Placeholder]` copy pending Phase 2 authoring.
+labelled `[Placeholder]` copy pending content authoring.
 
 Positioning: independent executive advisor — not a consulting firm, not an
 agency. The visual language (serif display type, restrained ink/paper
 palette, generous whitespace, no stock photography) is built to read as the
-digital home of a senior independent practitioner.
+digital home of a senior independent practitioner whose reputation compounds
+over years, not a campaign site.
+
+Phase 2 rebuilt the information architecture around one constraint: **the
+site must get more valuable with every engagement, framework and article
+published — not depend on a backlog of finished projects to look
+substantial.** See `src/content/README.md` for the content extension
+contract this enables.
 
 ---
 
@@ -16,7 +23,8 @@ digital home of a senior independent practitioner.
 - **Next.js 15** (App Router) + **React 19** + **TypeScript** (strict)
 - **Tailwind CSS** — design tokens sourced from CSS custom properties
 - No UI/animation/icon libraries — deliberately minimal dependency surface
-- Static generation throughout (`generateStaticParams` for all `[slug]` routes)
+- Static generation for all detail pages (`generateStaticParams`); listing
+  pages with filters/pagination are server-rendered on demand
 
 ## Getting Started
 
@@ -35,165 +43,158 @@ npm run lint         # eslint
 ```
 aiforu-platform/
 ├── src/
-│   ├── app/                          # Routes (App Router)
-│   │   ├── layout.tsx                 # Root layout: fonts, ThemeProvider, SiteShell
-│   │   ├── page.tsx                   # Home
-│   │   ├── globals.css                # Design tokens + base styles
-│   │   ├── sitemap.ts / robots.ts     # SEO infrastructure
+│   ├── app/
+│   │   ├── layout.tsx                     # Root layout: fonts, ThemeProvider, SiteShell
+│   │   ├── page.tsx                       # Home — see §3 for section order
+│   │   ├── globals.css
+│   │   ├── sitemap.ts / robots.ts
 │   │   ├── not-found.tsx
 │   │   ├── selected-advisory-engagements/
-│   │   │   ├── page.tsx               # Listing
-│   │   │   └── [slug]/page.tsx        # Reusable engagement template
-│   │   ├── advisory-services/page.tsx
+│   │   │   ├── page.tsx                   # Listing — track filter + pagination
+│   │   │   └── [slug]/page.tsx            # Reusable engagement template
 │   │   ├── governance-domains/
-│   │   │   ├── page.tsx               # Listing (9 domains)
-│   │   │   └── [slug]/page.tsx        # Reusable domain template
+│   │   │   ├── page.tsx                   # Full capability map, grouped by cluster
+│   │   │   └── [slug]/page.tsx            # Reusable domain template (all 13 domains)
 │   │   ├── insights/
-│   │   │   ├── page.tsx
+│   │   │   ├── page.tsx                   # Listing — format filter + pagination
 │   │   │   └── [slug]/page.tsx
 │   │   ├── resources/
-│   │   │   ├── page.tsx
+│   │   │   ├── page.tsx                   # Listing — type + tier filters + pagination
 │   │   │   └── [slug]/page.tsx
-│   │   ├── about/page.tsx
+│   │   ├── about/page.tsx                 # Executive biography, not a résumé
 │   │   └── contact/page.tsx
 │   │
 │   ├── components/
-│   │   ├── ui/                        # Design-system primitives
-│   │   │   ├── button.tsx             # primary / secondary / ghost, sm/md/lg, polymorphic (Link or <button>)
-│   │   │   ├── card.tsx               # Card + CardEyebrow/Title/Description/Footer
-│   │   │   ├── badge.tsx
-│   │   │   ├── container.tsx          # default / narrow / wide max-widths
-│   │   │   ├── section-heading.tsx
-│   │   │   ├── eyebrow.tsx
-│   │   │   ├── divider.tsx
-│   │   │   └── placeholder.tsx        # Image/diagram stand-ins + inline text placeholder
-│   │   ├── layout/
-│   │   │   ├── header.tsx             # Sticky nav, mobile menu, theme toggle
-│   │   │   ├── footer.tsx
-│   │   │   ├── site-shell.tsx         # Header + skip link + Footer wrapper
-│   │   │   └── breadcrumbs.tsx
-│   │   ├── theme/
-│   │   │   ├── theme-provider.tsx     # Custom light/dark/system context (no dependency)
-│   │   │   └── theme-toggle.tsx
-│   │   ├── sections/
-│   │   │   ├── page-hero.tsx          # Standard top-of-page hero
-│   │   │   └── cta-band.tsx           # Primary + secondary CTA closing band
-│   │   ├── advisory/                  # Selected Advisory Engagement components
-│   │   ├── governance/                # Governance Domain components
-│   │   ├── article/                   # Insights components
-│   │   ├── resource/                  # Resources components
+│   │   ├── ui/                            # Button, Card, Badge, Container, SectionHeading,
+│   │   │                                    Eyebrow, Divider, Placeholder, BackLink,
+│   │   │                                    FilterPills, Pagination
+│   │   ├── layout/                        # Header, Footer, SiteShell, Breadcrumbs
+│   │   ├── theme/                         # ThemeProvider, ThemeToggle (no dependency)
+│   │   ├── sections/                      # PageHero, CtaBand, PointOfViewSection,
+│   │   │                                    CurrentPrioritiesSection
+│   │   ├── advisory/                      # Engagement card/grid/detail
+│   │   ├── governance/                    # Domain card/grid/detail + GovernanceCapabilityMap
+│   │   ├── article/                       # Insight card/grid/detail
+│   │   ├── resource/                      # Resource card/grid/detail
 │   │   ├── contact/contact-form.tsx
-│   │   └── seo/
-│   │       ├── json-ld.tsx
-│   │       └── schema.ts              # Person / Organization / Article / Breadcrumb schema.org builders
+│   │   └── seo/                           # JsonLd, schema.ts
 │   │
-│   ├── content/                       # Placeholder data (swap for CMS/MDX in Phase 2)
-│   │   ├── governance-domains.ts      # 9 domains
-│   │   ├── advisory-engagements.ts    # 7 example engagements
-│   │   ├── insights.ts
-│   │   ├── resources.ts
-│   │   └── advisory-services.ts
+│   ├── content/                           # Data layer — see content/README.md
+│   │   ├── README.md                      # Extension contract: how to add content
+│   │   ├── governance-clusters.ts         # 4 clusters
+│   │   ├── governance-domains.ts          # 13 domains
+│   │   ├── advisory-engagements.ts        # 8 engagements (Government / Enterprise / Strategic)
+│   │   ├── insights.ts                    # 9 insights (incl. 3 signature Point of View pieces)
+│   │   ├── resources.ts                   # 10 resources (Free + Premium)
+│   │   └── current-priorities.ts          # Dated "now page" snapshot
 │   │
 │   ├── lib/
-│   │   ├── constants.ts               # site config, nav, primary/secondary CTA
-│   │   ├── metadata.ts                # buildMetadata() — canonical/OG/Twitter helper
-│   │   └── utils.ts                   # cn(), formatDate()
+│   │   ├── constants.ts                   # site config, 6-item primary nav, CTAs
+│   │   ├── metadata.ts                    # buildMetadata()
+│   │   ├── pagination.ts                  # paginate(), parsePage(), parseFilter()
+│   │   ├── query.ts                       # buildQueryString() — searchParams-driven filter links
+│   │   └── utils.ts
 │   │
-│   └── types/index.ts                 # GovernanceDomain, AdvisoryEngagement, Insight, Resource, NavItem
+│   └── types/index.ts
 │
-├── public/                            # Static assets (empty — no imagery per Phase 1 scope)
-├── tailwind.config.ts                 # Color/type/spacing token mapping
+├── public/
+├── tailwind.config.ts
 └── next.config.ts
 ```
 
 ---
 
-## 2. Architecture Explanation
+## 2. What changed in Phase 2
 
-**Content/presentation split.** Every listing and detail page is a thin
-route file that pulls typed data from `src/content/*.ts` and hands it to a
-template component. Adding a new advisory engagement, governance domain,
-insight or resource is a data-only change — no new template code, no new
-route file (the `[slug]` dynamic route + `generateStaticParams` already
-covers it).
+Following the positioning review, three structural shifts:
 
-**Design tokens over hard-coded values.** Colour is defined once as HSL
-triplets in CSS custom properties (`globals.css`) and consumed through
-Tailwind's `hsl(var(--x) / <alpha-value>)` pattern. Light/dark are two sets
-of the same variable names, switched by a `data-theme` attribute — nothing
-in component code branches on theme.
+**Governance Domains grew from 9 to 13, grouped into 4 clusters, all live as
+full pages from day one** (`Emerging Technology Governance`,
+`Risk, Cyber & Assurance`, `Regulatory, Privacy & Third-Party`,
+`Public Sector & Transformation`). `GovernanceCapabilityMap` renders this
+same taxonomy two ways — a compact text index on the homepage, a full
+cluster-grouped card grid on `/governance-domains` — so the map reads as a
+structured index rather than a wall of tiles.
 
-**Three-tier component model.**
-1. `components/ui` — dumb, domain-agnostic primitives (Button, Card, Badge…).
-2. `components/{advisory,governance,article,resource}` — compose `ui`
-   primitives into cards, grids and detail templates for one content type.
-3. `app/**/page.tsx` — compose section components + content data. Pages
-   contain no styling decisions of their own beyond layout order.
+**Point of View is now a first-class content format, not a homepage
+one-liner.** `Insight.format` distinguishes `"Point of View"` (original
+frameworks, decision models) from `"Governance Note"`, `"Briefing"` and
+`"Field Note"` within one collection. `PointOfViewSection` — deliberately
+not built from the standard Card primitive — is the homepage's signature
+section, and `/insights` filters by format.
 
-**Theme system has no dependency.** Rather than pull in `next-themes`, dark
-mode is ~60 lines of context + a render-blocking inline script (in `<head>`)
-that reads `localStorage` before hydration to avoid a flash of incorrect
-theme.
+**Every content type now supports several-hundred-item scale without a
+redesign.** `lib/pagination.ts` and `lib/query.ts` back a searchParams-driven
+filter + pagination pattern (`FilterPills`, `Pagination` — both plain
+server-rendered links, no client JS) used identically across
+`/selected-advisory-engagements`, `/insights` and `/resources`. Growing a
+collection is a data-only change; see `src/content/README.md`.
 
-**SEO is centralized.** `lib/metadata.ts#buildMetadata()` is the single
-place that produces `<title>`, canonical URL, Open Graph and Twitter tags;
-every route calls it with just a title/description/path. `components/seo`
-adds schema.org JSON-LD (Person, ProfessionalService, Article,
-BreadcrumbList) and `app/sitemap.ts` / `app/robots.ts` generate the crawl
-surface from the same content files the pages render from — engagements,
-domains, insights and resources can never drift out of the sitemap.
-
-**Accessibility defaults.** Skip-to-content link, visible focus rings via
-`:focus-visible`, semantic landmark elements (`header`/`main`/`footer`/`nav`
-with `aria-label`), `aria-current="page"` in breadcrumbs, and form labels
-tied to inputs in the contact form.
+Other changes: the flat homepage keyword strip is gone; the hero now carries
+one primary CTA plus a quiet secondary link instead of two stacked buttons;
+the closing CTA band appears only on hub/listing pages, replaced by a quiet
+`BackLink` on every detail page (an insight, engagement, domain or resource
+page is meant to be read and left, not funneled); the standalone "Advisory
+Services" page is retired and folded into About as "How I Work"; About is
+restructured around *why/how/experience*, not a chronology.
 
 ---
 
-## 3. Components Created
+## 3. Homepage section order
 
-| Category | Components |
+1. Hero (single primary CTA + secondary text link)
+2. Current Advisory Priorities (dated "now page" snapshot)
+3. Point of View (signature section)
+4. Why organisations engage her (About teaser)
+5. Governance Domains (capability map, compact)
+6. Selected Advisory Engagements (featured)
+7. Insights (featured, excluding Point of View to avoid duplicating §3)
+8. Closing CTA band
+
+---
+
+## 4. Components created (Phase 2 additions)
+
+| Component | Purpose |
 |---|---|
-| UI primitives | `Button`, `Card` (+ `CardEyebrow`/`CardTitle`/`CardDescription`/`CardFooter`), `Badge`, `Container`, `SectionHeading`, `Eyebrow`, `Divider`, `Placeholder`/`TextPlaceholder` |
-| Layout | `Header`, `Footer`, `SiteShell`, `Breadcrumbs` |
-| Theme | `ThemeProvider`, `ThemeToggle` |
-| Sections | `PageHero`, `CtaBand` |
-| Advisory | `AdvisoryEngagementCard`, `AdvisoryEngagementGrid`, `AdvisoryEngagementDetail` (reusable engagement template) |
-| Governance | `GovernanceDomainCard`, `GovernanceDomainGrid`, `GovernanceDomainDetail` (reusable domain template) |
-| Article (Insights) | `ArticleCard`, `ArticleGrid`, `ArticleDetail` |
-| Resource | `ResourceCard`, `ResourceGrid`, `ResourceDetail` |
-| Contact | `ContactForm` (presentational; no submit handler wired) |
-| SEO | `JsonLd`, `schema.ts` (person/organization/article/breadcrumb builders), `buildMetadata()` |
+| `PointOfViewSection` | Signature homepage section — numbered list over hairline rules, not cards |
+| `CurrentPrioritiesSection` | "Now page" style block; self-dates via `updatedAt` |
+| `GovernanceCapabilityMap` | Cluster-grouped domain taxonomy — `compact` and `full` variants |
+| `FilterPills` | Server-rendered filter links (track / format / type / tier) |
+| `Pagination` | Server-rendered pager, `?page=` param |
+| `BackLink` | Quiet end-of-detail-page wayfinding, replaces `CtaBand` on `[slug]` pages |
 
-## 4. Pages Created
+## 5. Pages
 
-`/`, `/selected-advisory-engagements`, `/selected-advisory-engagements/[slug]`
-(7 example engagements), `/advisory-services`, `/governance-domains`,
-`/governance-domains/[slug]` (all 9 domains), `/insights`,
-`/insights/[slug]` (6 example insights), `/resources`,
-`/resources/[slug]` (5 example resources), `/about`, `/contact`,
-`/sitemap.xml`, `/robots.txt`, `not-found`.
+`/`, `/selected-advisory-engagements` (+ 8 engagements), `/governance-domains`
+(+ 13 domains across 4 clusters), `/insights` (+ 9 insights, 3 of them Point
+of View), `/resources` (+ 10 resources across 8 types and 2 access tiers),
+`/about`, `/contact`, `/sitemap.xml`, `/robots.txt`, `not-found`.
 
-Verified: `npm run typecheck`, `npm run build` (26 routes, 40 static pages
-incl. dynamic slugs, zero errors/warnings) and a manual pass in-browser
-(light + dark) confirming layout, theming and the reusable detail templates
-render correctly.
+Verified: `npm run typecheck`, `npm run build` (52 pages, zero
+errors/warnings — detail pages statically generated, filtered listing pages
+server-rendered on demand) and a manual light/dark browser pass across the
+homepage, capability map, filtered Insights view and About.
 
-## 5. Remaining Work for Phase 2
+## 6. Remaining work
 
-- Replace all `[Placeholder]` copy with real content (positioning, bio,
-  engagement narratives, insight articles, resource descriptions).
-- Source/commission real imagery (executive portrait, engagement visuals)
-  to replace `Placeholder` components; remove the dashed placeholder style.
-- Decide on content source of truth: keep `src/content/*.ts` hand-authored,
-  or migrate to MDX / a headless CMS — the template components are
-  data-shape agnostic either way.
-- Wire the contact form to a real submission path (API route + email
-  provider, or a form service) and add spam protection.
-- Resource downloads: attach real files/gated-download flow behind
-  `ResourceDetail`'s CTA.
-- Analytics/consent (if required), plus final favicon/social preview image.
+- Replace all `[Placeholder]` copy with real content — positioning,
+  biography, engagement narratives, Point of View pieces, resource
+  descriptions.
+- Source real imagery (executive portrait) to replace `Placeholder`
+  components.
+- Content migration path: `src/content/*.ts` arrays are hand-authored by
+  design; when volume outgrows that, swap the `getXBySlug`/array exports for
+  MDX frontmatter or a headless CMS query — nothing outside `src/content/`
+  needs to change (see `content/README.md`).
+- Wire the contact form to a real submission path; add spam protection.
+- Resource downloads: real gating/delivery behind `ResourceDetail`'s CTA for
+  `Premium` items (currently a label only, no paywall).
+- Analytics/consent, final favicon/social preview image.
 - Content review for DPDP/privacy-domain pages against current regulatory
   text before publishing.
-- Deployment to Vercel (env vars, domain, preview workflow) — intentionally
-  not done in Phase 1.
+- Phase 3 candidate (per the roadmap in the positioning review): promote
+  Resources toward a "Governance Lab" framing once it carries enough
+  original frameworks to earn the name; add a Speaking & Writing section
+  once external citations exist.
+- Deployment to Vercel — intentionally not done yet.

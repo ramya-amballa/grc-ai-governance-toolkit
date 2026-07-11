@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { ResourceDetail } from "@/components/resource/resource-detail";
-import { CtaBand } from "@/components/sections/cta-band";
+import { BackLink } from "@/components/ui/back-link";
 import { getResourceBySlug, resources } from "@/content/resources";
 import { buildMetadata } from "@/lib/metadata";
 
@@ -40,7 +40,7 @@ export default async function ResourcePage({ params }: PageProps) {
         ]}
       />
       <ResourceDetail resource={resource} />
-      <CtaBand />
+      <BackLink href="/resources" label="All Resources" />
     </>
   );
 }

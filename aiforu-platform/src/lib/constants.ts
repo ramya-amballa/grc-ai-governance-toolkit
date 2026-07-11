@@ -14,20 +14,18 @@ export const site = {
 export const primaryNav: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "Selected Advisory Engagements", href: "/selected-advisory-engagements" },
-  { label: "Advisory Services", href: "/advisory-services" },
   { label: "Governance Domains", href: "/governance-domains" },
   { label: "Insights", href: "/insights" },
   { label: "Resources", href: "/resources" },
-  { label: "About Ramya", href: "/about" },
+  { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
 
 export const footerNav: { title: string; items: NavItem[] }[] = [
   {
-    title: "Advisory",
+    title: "Practice",
     items: [
       { label: "Selected Advisory Engagements", href: "/selected-advisory-engagements" },
-      { label: "Advisory Services", href: "/advisory-services" },
       { label: "Governance Domains", href: "/governance-domains" },
     ],
   },
@@ -41,7 +39,7 @@ export const footerNav: { title: string; items: NavItem[] }[] = [
   {
     title: "Firm",
     items: [
-      { label: "About Ramya", href: "/about" },
+      { label: "About", href: "/about" },
       { label: "Contact", href: "/contact" },
     ],
   },

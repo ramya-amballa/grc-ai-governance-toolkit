@@ -3,8 +3,12 @@ import { AdvisoryEngagementGrid } from "@/components/advisory/advisory-engagemen
 import { CtaBand } from "@/components/sections/cta-band";
 import { PageHero } from "@/components/sections/page-hero";
 import { Container } from "@/components/ui/container";
+import { FilterPills } from "@/components/ui/filter-pills";
+import { Pagination } from "@/components/ui/pagination";
 import { advisoryEngagements } from "@/content/advisory-engagements";
 import { buildMetadata } from "@/lib/metadata";
+import { paginate, parseFilter, parsePage } from "@/lib/pagination";
+import type { EngagementTrack } from "@/types";
 
 export const metadata: Metadata = buildMetadata({
   title: "Selected Advisory Engagements",
@@ -12,17 +16,45 @@ export const metadata: Metadata = buildMetadata({
   path: "/selected-advisory-engagements",
 });
 
-export default function SelectedAdvisoryEngagementsPage() {
+const tracks: EngagementTrack[] = ["Government", "Enterprise Advisory", "Strategic Programme"];
+
+interface PageProps {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}
+
+export default async function SelectedAdvisoryEngagementsPage({ searchParams }: PageProps) {
+  const params = await searchParams;
+  const track = parseFilter(params, "track");
+  const page = parsePage(params);
+
+  const filtered = track ? advisoryEngagements.filter((engagement) => engagement.track === track) : advisoryEngagements;
+  const { items, currentPage, totalPages } = paginate(filtered, page);
+
   return (
     <>
       <PageHero
         eyebrow="Selected Work"
         title="Selected Advisory Engagements"
-        description="[Selected Advisory Engagements — Page Description Placeholder]"
+        description="[Selected Advisory Engagements — Page Description Placeholder. Spans government initiatives, enterprise advisory engagements and standalone strategic programmes.]"
       />
       <section className="py-section-sm">
         <Container size="wide">
-          <AdvisoryEngagementGrid engagements={advisoryEngagements} />
+          <FilterPills
+            label="Track"
+            filterKey="track"
+            options={tracks.map((value) => ({ label: value, value }))}
+            searchParams={params}
+            basePath="/selected-advisory-engagements"
+          />
+          <div className="mt-10">
+            <AdvisoryEngagementGrid engagements={items} />
+          </div>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            searchParams={params}
+            basePath="/selected-advisory-engagements"
+          />
         </Container>
       </section>
       <CtaBand />

@@ -5,7 +5,10 @@ import type { Resource } from "@/types";
 export function ResourceCard({ resource }: { resource: Resource }) {
   return (
     <Card href={`/resources/${resource.slug}`}>
-      <Badge>{resource.type}</Badge>
+      <div className="flex items-center justify-between gap-3">
+        <Badge>{resource.type}</Badge>
+        <Badge tone={resource.accessTier === "Premium" ? "accent" : "neutral"}>{resource.accessTier}</Badge>
+      </div>
       <CardTitle>{resource.title}</CardTitle>
       <CardDescription>{resource.description}</CardDescription>
     </Card>

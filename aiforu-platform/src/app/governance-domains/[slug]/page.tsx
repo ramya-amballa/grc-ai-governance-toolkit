@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
-import { CtaBand } from "@/components/sections/cta-band";
 import { GovernanceDomainDetail } from "@/components/governance/governance-domain-detail";
+import { BackLink } from "@/components/ui/back-link";
 import { advisoryEngagements } from "@/content/advisory-engagements";
+import { getGovernanceCluster } from "@/content/governance-clusters";
 import { getGovernanceDomainBySlug, governanceDomains } from "@/content/governance-domains";
 import { insights } from "@/content/insights";
+import { resources } from "@/content/resources";
 import { buildMetadata } from "@/lib/metadata";
 
 interface PageProps {
@@ -37,6 +39,8 @@ export default async function GovernanceDomainPage({ params }: PageProps) {
     domain.relatedEngagementSlugs.includes(engagement.slug),
   );
   const relatedInsights = insights.filter((insight) => domain.relatedInsightSlugs.includes(insight.slug));
+  const relatedResources = resources.filter((resource) => domain.relatedResourceSlugs.includes(resource.slug));
+  const cluster = getGovernanceCluster(domain.cluster);
 
   return (
     <>
@@ -46,8 +50,14 @@ export default async function GovernanceDomainPage({ params }: PageProps) {
           { label: domain.name, href: `/governance-domains/${domain.slug}` },
         ]}
       />
-      <GovernanceDomainDetail domain={domain} relatedEngagements={relatedEngagements} relatedInsights={relatedInsights} />
-      <CtaBand />
+      <GovernanceDomainDetail
+        domain={domain}
+        cluster={cluster}
+        relatedEngagements={relatedEngagements}
+        relatedInsights={relatedInsights}
+        relatedResources={relatedResources}
+      />
+      <BackLink href="/governance-domains" label="All Governance Domains" />
     </>
   );
 }

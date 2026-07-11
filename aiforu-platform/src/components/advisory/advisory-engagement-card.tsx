@@ -1,12 +1,16 @@
+import { Badge } from "@/components/ui/badge";
 import { Card, CardDescription, CardEyebrow, CardFooter, CardTitle } from "@/components/ui/card";
 import type { AdvisoryEngagement } from "@/types";
 
 export function AdvisoryEngagementCard({ engagement }: { engagement: AdvisoryEngagement }) {
   return (
     <Card href={`/selected-advisory-engagements/${engagement.slug}`}>
-      <CardEyebrow>
-        {engagement.sector} &middot; {engagement.year}
-      </CardEyebrow>
+      <div className="flex items-center justify-between gap-3">
+        <CardEyebrow>
+          {engagement.sector} &middot; {engagement.year}
+        </CardEyebrow>
+        <Badge>{engagement.track}</Badge>
+      </div>
       <CardTitle>{engagement.title}</CardTitle>
       <CardDescription>{engagement.summary}</CardDescription>
       <CardFooter>

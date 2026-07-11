@@ -4,16 +4,21 @@ import { Container } from "@/components/ui/container";
 import type { Resource } from "@/types";
 
 export function ResourceDetail({ resource }: { resource: Resource }) {
+  const isPremium = resource.accessTier === "Premium";
+
   return (
     <article>
       <Container size="narrow" className="py-section-sm">
-        <Badge tone="accent">{resource.type}</Badge>
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge tone="accent">{resource.type}</Badge>
+          <Badge tone={isPremium ? "accent" : "neutral"}>{resource.accessTier}</Badge>
+        </div>
         <h1 className="mt-6 font-serif text-display text-ink balance">{resource.title}</h1>
         <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted pretty">{resource.description}</p>
 
         <div className="mt-10">
           <Button variant="primary" size="lg">
-            [Download Resource Placeholder]
+            {isPremium ? "[Request Access Placeholder]" : "[Download Resource Placeholder]"}
           </Button>
         </div>
       </Container>

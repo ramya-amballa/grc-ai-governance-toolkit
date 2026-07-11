@@ -10,6 +10,13 @@ interface BuildMetadataInput {
 }
 
 /**
+ * True only on a Vercel Production deployment — mirrors the check in
+ * next.config.ts. Preview deployments and local dev must never be
+ * indexable, regardless of what an individual page passes as `noIndex`.
+ */
+const isProductionDeployment = process.env.VERCEL_ENV === "production";
+
+/**
  * Central metadata builder so every page produces consistent title
  * templates, canonical URLs and Open Graph / Twitter tags.
  */
@@ -21,6 +28,7 @@ export function buildMetadata({
   noIndex = false,
 }: BuildMetadataInput): Metadata {
   const url = new URL(path, site.url).toString();
+  const shouldIndex = isProductionDeployment && !noIndex;
 
   return {
     title,
@@ -42,8 +50,8 @@ export function buildMetadata({
       description,
       site: site.twitter,
     },
-    robots: noIndex
-      ? { index: false, follow: false }
-      : { index: true, follow: true },
+    robots: shouldIndex
+      ? { index: true, follow: true }
+      : { index: false, follow: false },
   };
 }

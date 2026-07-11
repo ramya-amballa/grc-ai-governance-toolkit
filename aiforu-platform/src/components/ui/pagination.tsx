@@ -20,7 +20,7 @@ export function Pagination({ currentPage, totalPages, searchParams, basePath }: 
           &larr; Previous
         </Link>
       ) : (
-        <span className="text-sm text-muted/40">&larr; Previous</span>
+        <span aria-disabled="true" className="text-sm text-muted">&larr; Previous</span>
       )}
 
       <span className="font-mono text-xs uppercase tracking-widest text-muted">
@@ -32,7 +32,7 @@ export function Pagination({ currentPage, totalPages, searchParams, basePath }: 
           Next &rarr;
         </Link>
       ) : (
-        <span className="text-sm text-muted/40">Next &rarr;</span>
+        <span aria-disabled="true" className="text-sm text-muted">Next &rarr;</span>
       )}
     </nav>
   );

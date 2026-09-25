@@ -3,7 +3,7 @@
 Turning AI governance requirements into operational decisions.
 
 ---
-![OPERA Methodology](../images/opera-methodology-v1.png)
+![OPERA Methodology](../images/OPERA_Methodology_v1.1.png)
 
 ## Why OPERA Exists
 
@@ -19,7 +19,7 @@ OPERA provides a structured path from business use case through ownership, risk 
 
 **O → Opportunity**
 
-What business problem are we solving?
+Why are we using AI, and what outcome are we seeking?
 
 Deliverables:
 - AI Use Case Intake
@@ -30,7 +30,7 @@ Deliverables:
 
 **P → People**
 
-Who owns the decision?
+Who owns the system and the governance decisions?
 
 Deliverables:
 - Ownership Matrix
@@ -41,7 +41,9 @@ Deliverables:
 
 **E → Evaluation**
 
-What are the risks and impacts?
+What are the risks, and what level of exposure is the organisation prepared to consider?
+
+Determines the level of exposure the organisation is prepared to consider, assesses the risks and identifies the proposed treatment. Also where applicable regulatory obligations are determined and compliance exposure is assessed. Evaluation proposes; it does not accept risk.
 
 Deliverables:
 - AI Inventory
@@ -52,7 +54,9 @@ Deliverables:
 
 **R → Response**
 
-What governance decisions are required?
+What controls and actions are required, and who is authorised to accept the residual risk?
+
+The authorised executive makes and records the formal residual-risk acceptance decision here. The incident playbook, escalation arrangements and kill switch are also designed here, as required actions.
 
 Deliverables:
 - Decision Records
@@ -63,7 +67,9 @@ Deliverables:
 
 **A → Assurance**
 
-How will we maintain trust and oversight?
+How do we demonstrate that the controls are working?
+
+Establishes whether the controls operate as intended and retains the evidence needed to demonstrate that. The incident playbook, escalation arrangements and kill switch designed under Response are tested here, and evidence of their effectiveness is retained.
 
 Deliverables:
 - Evidence Register
@@ -72,10 +78,16 @@ Deliverables:
 
 ---
 
+## Retired terminology
+
+An earlier version of OPERA used the stage names Ownership, Planning, Evaluation, Review, Assurance. That terminology is retired and is not an alternative definition of OPERA. Current methodology pages, diagrams and case studies use Opportunity, People, Evaluation, Response, Assurance only.
+
+---
+
 ## Status
 
-Version: OPERA v1.0
-Status: Under active development
+Version: OPERA v1.1
+Status: Current
 
 
 ## OPERA in Practice
